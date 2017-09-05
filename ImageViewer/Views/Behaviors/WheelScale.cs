@@ -102,23 +102,28 @@ namespace ImageViewer.Views.Behaviors
             // Scroll control when only zoom facter has been changed.
             if (e.ExtentHeightChange != 0 || e.ExtentWidthChange != 0)
             {
-                double xMousePositionOnScrollViewer = Mouse.GetPosition(scrollViewer).X;
-                double yMousePositionOnScrollViewer = Mouse.GetPosition(scrollViewer).Y;
-                double offsetX = e.HorizontalOffset + xMousePositionOnScrollViewer;
-                double offsetY = e.HorizontalOffset + yMousePositionOnScrollViewer;
+                double magX = e.ExtentWidth/(e.ExtentWidth - e.ExtentWidthChange);
+                double magY = e.ExtentHeight/(e.ExtentHeight - e.ExtentHeightChange) ;
 
-                double oldExtentWidth = e.ExtentWidth - e.ExtentWidthChange;
-                double oldExtentHeight = e.ExtentHeight - e.ExtentHeightChange;
+                /*
+                System.Diagnostics.Debug.WriteLine("===== DEBUG INFORMATION =====");
+                System.Diagnostics.Debug.WriteLine("Magnification: {0}/{1}",mag_X,mag_Y);
+                System.Diagnostics.Debug.WriteLine("Mouse.GetPosition: X-{0} / Y-{1}", Mouse.GetPosition(scrollViewer).X, Mouse.GetPosition(scrollViewer).Y);
+                System.Diagnostics.Debug.WriteLine("e.ViewportHeight-e.ViewportHeightChange: {0} - {1}", e.ViewportHeight, e.ViewportHeightChange);
+                System.Diagnostics.Debug.WriteLine("e.ExtentHeight: {0}\n", e.ExtentHeight);
+                */
 
-                double relx = offsetX / oldExtentWidth;
-                double rely = offsetY / oldExtentHeight;
+                double PointX = e.HorizontalOffset - e.HorizontalChange + Mouse.GetPosition(scrollViewer).X;
+                double PointY = e.VerticalOffset - e.VerticalChange + Mouse.GetPosition(scrollViewer).Y;
 
-                offsetX = Math.Max(relx * e.ExtentWidth - xMousePositionOnScrollViewer, 0);
-                offsetY = Math.Max(rely * e.ExtentWidth - yMousePositionOnScrollViewer, 0);
+                double newPointX = PointX * magX;
+                double newPointY = PointY * magY;
 
-                ScrollViewer scrollViewerTemp = sender as ScrollViewer;
-                scrollViewerTemp.ScrollToHorizontalOffset(offsetX);
-                scrollViewerTemp.ScrollToVerticalOffset(offsetY);
+                double newOffsetX = newPointX - Mouse.GetPosition(scrollViewer).X;
+                double newOffsetY = newPointY - Mouse.GetPosition(scrollViewer).Y;
+
+                scrollViewer.ScrollToHorizontalOffset(Math.Max(newOffsetX, 0));
+                scrollViewer.ScrollToVerticalOffset(Math.Max(newOffsetY,0));
             }
         }
     }
