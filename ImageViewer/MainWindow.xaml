@@ -4,7 +4,7 @@
         xmlns:Behaviors="clr-namespace:ImageViewer.Views.Behaviors"
         Title="MainWindow" Height="512" Width="512">
     <Grid>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Behaviors:WheelScale.IsEnabled="true">
             <Image Behaviors:WheelScale.IsEnabled="true" Stretch="None" Margin="2">
                 <Image.Source>
                     <BitmapImage UriSource="https://upload.wikimedia.org/wikipedia/en/2/24/Lenna.png"/>
