@@ -37,14 +37,12 @@ namespace ImageViewer.Views.Behaviors
 
             if ((bool)e.NewValue && img != null)
             {
-                System.Diagnostics.Debug.WriteLine("----------------->img Loaded;");
                 img.Loaded += img_Loaded;
             }
             else img_Unloaded(img, new RoutedEventArgs());
 
             if ((bool)e.NewValue && scrollViewer != null)
             {
-                System.Diagnostics.Debug.WriteLine("----------------->scrollViewer Loaded;");
                 scrollViewer.Loaded += scrollViewer_Loaded;
             }
             else scrollViewer_Unloaded(scrollViewer, new RoutedEventArgs());
@@ -97,14 +95,11 @@ namespace ImageViewer.Views.Behaviors
         }
         
         // Keep center mouse pointer when scaling has been changed.
-        static int num = 0;
         static void scrollViewer_keepCentre(object sender, ScrollChangedEventArgs e)
         {
             ScrollViewer scrollViewer = sender as ScrollViewer;
 
-            System.Diagnostics.Debug.WriteLine("scrollViewer_keepCentre Method was called. count: {0}", num);
-            num++;
-
+            // Scroll control when only zoom facter has been changed.
             if (e.ExtentHeightChange != 0 || e.ExtentWidthChange != 0)
             {
                 double xMousePositionOnScrollViewer = Mouse.GetPosition(scrollViewer).X;
